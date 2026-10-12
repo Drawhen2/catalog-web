@@ -37,11 +37,21 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .neo-shadow { box-shadow: 4px 4px 0px #0F172A; }
         .neo-shadow-sm { box-shadow: 2px 2px 0px #0F172A; }
+        
+        /* Hapus panah pada input number */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body class="antialiased relative pb-24">
 
-    <!-- Header (Garis navbar diperhalus menjadi border-b saja) -->
+    <!-- Header -->
     <header class="sticky top-0 z-40 w-full bg-white border-b border-app-dark shadow-sm transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -56,17 +66,17 @@
                     </div>
                 </div>
 
-                <!-- Tombol Search & Keranjang -->
-                <div class="flex items-center gap-3" data-aos="fade-left">
-                    <!-- Tombol Search Baru -->
-                    <button class="relative bg-white border-2 border-app-dark p-2.5 rounded-xl neo-shadow-sm hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#0F172A] transition-all text-app-dark hover:bg-slate-50">
+                <!-- Tombol Search & Keranjang Tanpa Kotak -->
+                <div class="flex items-center gap-5 pr-2" data-aos="fade-left">
+                    <!-- Tombol Search -->
+                    <button class="text-app-dark text-xl hover:text-brand-500 active:scale-75 transition-transform">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
 
                     <!-- Tombol Keranjang -->
-                    <button onclick="toggleCart()" class="relative bg-accent-yellow border-2 border-app-dark p-2.5 rounded-xl neo-shadow-sm hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#0F172A] transition-all">
-                        <i class="fa-solid fa-cart-shopping text-app-dark"></i>
-                        <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-500 text-white text-[10px] font-bold w-5 h-5 rounded-full border-2 border-app-dark flex items-center justify-center hidden">0</span>
+                    <button onclick="toggleCart()" class="relative text-app-dark text-2xl hover:text-brand-500 active:scale-75 transition-transform">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span id="cart-badge" class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
                     </button>
                 </div>
             </div>
@@ -76,16 +86,16 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <!-- Filter Kategori Ringkas -->
+        <!-- Filter Kategori -->
         <div class="mb-6" data-aos="fade-up">
             <div class="flex gap-2 overflow-x-auto hide-scrollbar py-2" id="filter-container">
-                <button onclick="filterProducts('Semua')" class="filter-btn active px-4 py-2 bg-app-dark text-white border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap transition-colors">Semua</button>
-                <button onclick="filterProducts('Sewa')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Item Sewa</button>
-                <button onclick="filterProducts('Jual')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Item Jual</button>
+                <button onclick="filterProducts('Semua')" data-cat="Semua" class="filter-btn active px-4 py-2 bg-app-dark text-white border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap transition-colors">Semua</button>
+                <button onclick="filterProducts('Sewa')" data-cat="Sewa" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Item Sewa</button>
+                <button onclick="filterProducts('Jual')" data-cat="Jual" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Item Jual</button>
                 
-                <!-- Tombol Lihat Filter (Popup) -->
+                <!-- Tombol Filter (Popup) -->
                 <button onclick="openFilterModal()" class="px-4 py-2 bg-accent-cyan text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-[#22d3ee] transition-colors shadow-[2px_2px_0px_#0F172A]">
-                    <i class="fa-solid fa-filter mr-1"></i> Lihat Filter
+                    <i class="fa-solid fa-filter mr-1"></i> Filter
                 </button>
             </div>
         </div>
@@ -149,7 +159,7 @@
 
     <!-- DRAWER KERANJANG (CART) -->
     <div id="cart-drawer-bg" class="fixed inset-0 bg-app-dark/60 z-50 hidden opacity-0 transition-opacity" onclick="toggleCart()"></div>
-    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white border-l-2 border-app-dark z-50 transform translate-x-full transition-transform duration-300 flex flex-col neo-shadow">
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white border-l-2 border-app-dark z-50 transform translate-x-full transition-transform duration-300 flex flex-col neo-shadow">
         
         <!-- Cart Header -->
         <div class="p-4 border-b-2 border-app-dark flex justify-between items-center bg-accent-yellow">
@@ -169,11 +179,11 @@
         </div>
 
         <!-- Cart Footer / Checkout -->
-        <div class="p-4 border-t-2 border-app-dark bg-white">
+        <div class="p-4 border-t-2 border-app-dark bg-white overflow-y-auto max-h-[50vh] hide-scrollbar">
             
-            <!-- Opsi Metode Pembayaran Baru -->
+            <!-- Opsi Metode Pembayaran -->
             <div class="mb-4">
-                <p class="text-xs font-bold text-slate-500 mb-2 uppercase">Metode Pembayaran:</p>
+                <p class="text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-wider">Metode Pembayaran:</p>
                 <div class="grid grid-cols-2 gap-2 mb-3">
                     <label class="flex items-center gap-2 p-2.5 border-2 border-app-dark rounded-lg cursor-pointer bg-white hover:bg-slate-50 transition-colors">
                         <input type="radio" name="payment_method" value="Cash" class="accent-brand-500 w-4 h-4" checked onchange="toggleSplitBill(false)">
@@ -193,19 +203,58 @@
                     </label>
                 </div>
                 
-                <!-- Form Input Split Bill (Muncul saat dipilih) -->
-                <div id="split-bill-container" class="hidden animate-fade-in-up">
-                    <label class="text-xs font-bold text-slate-500 mb-1 block">Nominal Split (Pembayaran Awal):</label>
-                    <div class="relative flex items-center">
-                        <span class="absolute left-3 font-bold text-slate-500 text-sm">Rp</span>
-                        <input type="number" class="w-full pl-9 pr-3 py-2 border-2 border-app-dark rounded-lg text-sm font-bold text-app-dark focus:outline-none focus:border-brand-500" placeholder="0">
+                <!-- Form Input Split Bill -->
+                <div id="split-bill-container" class="hidden animate-fade-in-up mt-2 bg-app-bg p-3 border-2 border-app-dark rounded-xl">
+                    <p class="text-sm font-black text-brand-500 mb-3">Rincian Split Bill</p>
+                    
+                    <div class="space-y-2">
+                        <!-- Input Cash -->
+                        <div class="flex items-center justify-between p-2.5 border-2 border-app-dark rounded-xl bg-white shadow-[2px_2px_0px_#0F172A]">
+                            <div class="flex items-center gap-2 w-1/3">
+                                <i class="fa-solid fa-money-bill text-app-dark"></i>
+                                <span class="text-xs font-black text-app-dark">Cash</span>
+                            </div>
+                            <div class="flex items-center w-2/3 justify-end gap-1">
+                                <span class="text-xs font-bold text-slate-400">Rp</span>
+                                <input type="number" class="w-full text-right text-sm font-bold text-slate-600 focus:outline-none bg-transparent split-input" placeholder="0" oninput="calculateSplitTotal()">
+                            </div>
+                        </div>
+
+                        <!-- Input Transfer -->
+                        <div class="flex items-center justify-between p-2.5 border-2 border-app-dark rounded-xl bg-white shadow-[2px_2px_0px_#0F172A]">
+                            <div class="flex items-center gap-2 w-1/3">
+                                <i class="fa-solid fa-building-columns text-app-dark"></i>
+                                <span class="text-xs font-black text-app-dark">Transfer</span>
+                            </div>
+                            <div class="flex items-center w-2/3 justify-end gap-1">
+                                <span class="text-xs font-bold text-slate-400">Rp</span>
+                                <input type="number" class="w-full text-right text-sm font-bold text-slate-600 focus:outline-none bg-transparent split-input" placeholder="0" oninput="calculateSplitTotal()">
+                            </div>
+                        </div>
+
+                        <!-- Input Qris -->
+                        <div class="flex items-center justify-between p-2.5 border-2 border-app-dark rounded-xl bg-white shadow-[2px_2px_0px_#0F172A]">
+                            <div class="flex items-center gap-2 w-1/3">
+                                <i class="fa-solid fa-qrcode text-app-dark"></i>
+                                <span class="text-xs font-black text-app-dark">Qris</span>
+                            </div>
+                            <div class="flex items-center w-2/3 justify-end gap-1">
+                                <span class="text-xs font-bold text-slate-400">Rp</span>
+                                <input type="number" class="w-full text-right text-sm font-bold text-slate-600 focus:outline-none bg-transparent split-input" placeholder="0" oninput="calculateSplitTotal()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-4 px-1">
+                        <span class="text-xs font-bold text-slate-500">Nominal Terisi:</span>
+                        <span id="split-total-label" class="text-sm font-black text-red-500">Rp 0</span>
                     </div>
                 </div>
             </div>
 
-            <div class="flex justify-between items-end mb-4 pt-2 border-t border-slate-200">
+            <div class="flex justify-between items-end mb-4 pt-3 border-t-2 border-dashed border-slate-300">
                 <span class="text-sm font-bold text-slate-600">Total Pembayaran:</span>
-                <span id="cart-total" class="text-xl font-black text-app-dark">Rp 0</span>
+                <span id="cart-total" class="text-2xl font-black text-app-dark">Rp 0</span>
             </div>
             <button class="w-full py-3.5 bg-accent-green text-app-dark border-2 border-app-dark rounded-xl font-black neo-shadow-sm hover:bg-[#6ee7b7] active:translate-y-1 active:shadow-none transition-all flex justify-center items-center gap-2">
                 Checkout via WA <i class="fa-brands fa-whatsapp text-lg"></i>
@@ -254,7 +303,6 @@
 
             filtered.forEach((product, index) => {
                 const typeColor = product.type === 'Sewa' ? 'bg-accent-yellow' : 'bg-accent-green';
-                // Delay cascading animation
                 const animDelay = (index % 4) * 100;
                 
                 const card = `
@@ -271,7 +319,6 @@
                         <div class="p-3 sm:p-4 flex flex-col flex-1 justify-between">
                             <div>
                                 <p class="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase mb-0.5">${product.category}</p>
-                                <!-- Judul dengan class truncate agar nama panjang menjadi ... -->
                                 <h3 title="${product.name}" class="text-sm sm:text-base font-black text-app-dark leading-tight mb-2 cursor-pointer hover:text-brand-500 truncate" onclick="openDetail(${product.id})">
                                     ${product.name}
                                 </h3>
@@ -289,7 +336,6 @@
                 grid.innerHTML += card;
             });
 
-            // Trigger ulang animasi AOS setelah DOM diubah
             setTimeout(() => AOS.refresh(), 100);
         }
 
@@ -301,7 +347,7 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('bg-app-dark', 'text-white');
                 btn.classList.add('bg-white', 'text-app-dark');
-                if(btn.innerText.trim() === category || (category === 'Semua' && btn.innerText.trim() === 'Semua')) {
+                if(btn.dataset.cat === category) {
                     btn.classList.add('bg-app-dark', 'text-white');
                     btn.classList.remove('bg-white', 'text-app-dark');
                 }
@@ -429,6 +475,43 @@
             updateCartUI();
         }
 
+        // Logic memunculkan Input Nominal jika memilih Split Bill
+        function toggleSplitBill(isSplit) {
+            const splitContainer = document.getElementById('split-bill-container');
+            if(isSplit) {
+                splitContainer.classList.remove('hidden');
+            } else {
+                splitContainer.classList.add('hidden');
+                // Reset input fields when hidden
+                document.querySelectorAll('.split-input').forEach(input => input.value = '');
+                calculateSplitTotal();
+            }
+        }
+
+        // Hitung total input split bill
+        function calculateSplitTotal() {
+            const inputs = document.querySelectorAll('.split-input');
+            let splitTotal = 0;
+            inputs.forEach(input => {
+                splitTotal += Number(input.value) || 0;
+            });
+            
+            const splitLabel = document.getElementById('split-total-label');
+            splitLabel.innerText = formatRp(splitTotal);
+            
+            // Hitung total keranjang sebenarnya
+            const cartTotalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            // Ubah warna text jika jumlahnya sudah sesuai
+            if (splitTotal === cartTotalAmount && cartTotalAmount > 0) {
+                splitLabel.classList.remove('text-red-500');
+                splitLabel.classList.add('text-[#059669]'); // Warna hijau
+            } else {
+                splitLabel.classList.remove('text-[#059669]');
+                splitLabel.classList.add('text-red-500');
+            }
+        }
+
         function updateCartUI() {
             const container = document.getElementById('cart-items');
             const emptyMsg = document.getElementById('empty-cart-msg');
@@ -453,24 +536,25 @@
                     count += item.qty;
 
                     const cartItem = `
-                        <div class="bg-white border-2 border-app-dark rounded-xl p-3 flex gap-3 neo-shadow-sm mb-3">
+                        <div class="bg-white border-2 border-app-dark rounded-xl p-3 flex gap-3 neo-shadow-sm mb-3 relative">
                             <img src="${item.img}" class="w-16 h-16 object-cover border-2 border-app-dark rounded-lg">
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <h4 class="text-sm font-black text-app-dark leading-tight truncate pr-2" title="${item.name}">${item.name}</h4>
-                                    <button onclick="removeItem(${item.id})" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
+                            <div class="flex-1 pr-6">
+                                <h4 class="text-sm font-black text-app-dark leading-tight truncate" title="${item.name}">${item.name}</h4>
                                 <p class="text-brand-500 font-bold text-xs mb-2">${formatRp(item.price)}</p>
                                 
                                 <!-- Edit Qty -->
                                 <div class="flex items-center gap-3">
                                     <div class="flex items-center border-2 border-app-dark rounded-lg overflow-hidden">
                                         <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 bg-slate-100 font-black hover:bg-slate-200 transition-colors">-</button>
-                                        <span class="w-8 h-7 flex items-center justify-center font-bold text-xs border-x-2 border-app-dark">${item.qty}</span>
+                                        <span class="w-8 h-7 flex items-center justify-center font-bold text-xs border-x-2 border-app-dark bg-white">${item.qty}</span>
                                         <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 bg-slate-100 font-black hover:bg-slate-200 transition-colors">+</button>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Tombol Delete X Merah di Ujung Kanan Atas -->
+                            <button onclick="removeItem(${item.id})" class="absolute top-3 right-3 text-red-500 hover:text-red-600 active:scale-90 transition-all text-xl leading-none" title="Hapus Item">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </button>
                         </div>
                     `;
                     container.innerHTML += cartItem;
@@ -479,16 +563,7 @@
 
             totalEl.innerText = formatRp(total);
             badge.innerText = count;
-        }
-
-        // Logic memunculkan Input Nominal jika memilih Split Bill
-        function toggleSplitBill(isSplit) {
-            const splitContainer = document.getElementById('split-bill-container');
-            if(isSplit) {
-                splitContainer.classList.remove('hidden');
-            } else {
-                splitContainer.classList.add('hidden');
-            }
+            calculateSplitTotal(); // Update split info ketika cart berubah
         }
 
         // Tutup modal jika klik background gelap di luar box
