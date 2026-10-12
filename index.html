@@ -10,8 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
+    <!-- Icons & Animations -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,12 +41,12 @@
 </head>
 <body class="antialiased relative pb-24">
 
-    <!-- Header -->
-    <header class="sticky top-0 z-40 w-full bg-white border-b-2 border-app-dark neo-shadow-sm">
+    <!-- Header (Garis navbar diperhalus menjadi border-b saja) -->
+    <header class="sticky top-0 z-40 w-full bg-white border-b border-app-dark shadow-sm transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Branding & Alamat -->
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3" data-aos="fade-right">
                     <div class="w-10 h-10 bg-brand-500 border-2 border-app-dark rounded-xl flex items-center justify-center text-white neo-shadow-sm shrink-0">
                         <i class="fa-solid fa-tent text-lg"></i>
                     </div>
@@ -55,11 +56,19 @@
                     </div>
                 </div>
 
-                <!-- Tombol Keranjang -->
-                <button onclick="toggleCart()" class="relative bg-accent-yellow border-2 border-app-dark p-2.5 rounded-xl neo-shadow-sm hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#0F172A] transition-all">
-                    <i class="fa-solid fa-cart-shopping text-app-dark"></i>
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-500 text-white text-[10px] font-bold w-5 h-5 rounded-full border-2 border-app-dark flex items-center justify-center hidden">0</span>
-                </button>
+                <!-- Tombol Search & Keranjang -->
+                <div class="flex items-center gap-3" data-aos="fade-left">
+                    <!-- Tombol Search Baru -->
+                    <button class="relative bg-white border-2 border-app-dark p-2.5 rounded-xl neo-shadow-sm hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#0F172A] transition-all text-app-dark hover:bg-slate-50">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+
+                    <!-- Tombol Keranjang -->
+                    <button onclick="toggleCart()" class="relative bg-accent-yellow border-2 border-app-dark p-2.5 rounded-xl neo-shadow-sm hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#0F172A] transition-all">
+                        <i class="fa-solid fa-cart-shopping text-app-dark"></i>
+                        <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-500 text-white text-[10px] font-bold w-5 h-5 rounded-full border-2 border-app-dark flex items-center justify-center hidden">0</span>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -67,20 +76,21 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <!-- Filter Kategori -->
-        <div class="mb-6">
+        <!-- Filter Kategori Ringkas -->
+        <div class="mb-6" data-aos="fade-up">
             <div class="flex gap-2 overflow-x-auto hide-scrollbar py-2" id="filter-container">
-                <button onclick="filterProducts('Semua')" class="filter-btn active px-4 py-2 bg-app-dark text-white border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap">Semua</button>
-                <button onclick="filterProducts('Sewa')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100">Item Sewa</button>
-                <button onclick="filterProducts('Jual')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100">Item Jual</button>
-                <button onclick="filterProducts('Tenda')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100">Tenda</button>
-                <button onclick="filterProducts('Sepatu')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100">Sepatu</button>
-                <button onclick="filterProducts('Carrier')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100">Carrier</button>
-                <button onclick="filterProducts('Aksesoris')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100">Aksesoris</button>
+                <button onclick="filterProducts('Semua')" class="filter-btn active px-4 py-2 bg-app-dark text-white border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap transition-colors">Semua</button>
+                <button onclick="filterProducts('Sewa')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Item Sewa</button>
+                <button onclick="filterProducts('Jual')" class="filter-btn px-4 py-2 bg-white text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Item Jual</button>
+                
+                <!-- Tombol Lihat Filter (Popup) -->
+                <button onclick="openFilterModal()" class="px-4 py-2 bg-accent-cyan text-app-dark border-2 border-app-dark rounded-full text-sm font-bold whitespace-nowrap hover:bg-[#22d3ee] transition-colors shadow-[2px_2px_0px_#0F172A]">
+                    <i class="fa-solid fa-filter mr-1"></i> Lihat Filter
+                </button>
             </div>
         </div>
 
-        <!-- Product Grid (2 Kolom di Mobile, 3-4 di Desktop) -->
+        <!-- Product Grid -->
         <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             <!-- Produk di-generate via JavaScript -->
         </div>
@@ -88,9 +98,27 @@
     </main>
 
     <!-- Floating WhatsApp -->
-    <a href="#" class="fixed bottom-6 right-6 z-30 w-14 h-14 bg-[#25D366] text-white border-2 border-app-dark rounded-full flex items-center justify-center text-3xl neo-shadow hover:-translate-y-1 transition-transform">
+    <a href="#" class="fixed bottom-6 right-6 z-30 w-14 h-14 bg-[#25D366] text-white border-2 border-app-dark rounded-full flex items-center justify-center text-3xl neo-shadow hover:-translate-y-1 transition-transform" data-aos="zoom-in" data-aos-delay="400">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
+
+    <!-- MODAL FILTER KATEGORI -->
+    <div id="filter-modal" class="fixed inset-0 bg-app-dark/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0">
+        <div class="bg-white border-2 border-app-dark rounded-2xl w-full max-w-sm overflow-hidden neo-shadow transform scale-95 transition-transform duration-200" id="filter-modal-content">
+            <div class="p-4 border-b-2 border-app-dark flex justify-between items-center bg-accent-yellow">
+                <h2 class="text-lg font-black text-app-dark"><i class="fa-solid fa-list mr-2"></i>Kategori Lengkap</h2>
+                <button onclick="closeFilterModal()" class="w-8 h-8 bg-white border-2 border-app-dark rounded-full flex items-center justify-center text-app-dark hover:bg-accent-pink">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-5 flex flex-col gap-3">
+                <button onclick="selectExtendedFilter('Tenda')" class="w-full text-left font-bold text-app-dark px-4 py-3 bg-white border-2 border-app-dark rounded-xl hover:bg-slate-100 transition-colors shadow-[2px_2px_0px_#0F172A]">Tenda</button>
+                <button onclick="selectExtendedFilter('Sepatu')" class="w-full text-left font-bold text-app-dark px-4 py-3 bg-white border-2 border-app-dark rounded-xl hover:bg-slate-100 transition-colors shadow-[2px_2px_0px_#0F172A]">Sepatu</button>
+                <button onclick="selectExtendedFilter('Carrier')" class="w-full text-left font-bold text-app-dark px-4 py-3 bg-white border-2 border-app-dark rounded-xl hover:bg-slate-100 transition-colors shadow-[2px_2px_0px_#0F172A]">Carrier</button>
+                <button onclick="selectExtendedFilter('Aksesoris')" class="w-full text-left font-bold text-app-dark px-4 py-3 bg-white border-2 border-app-dark rounded-xl hover:bg-slate-100 transition-colors shadow-[2px_2px_0px_#0F172A]">Aksesoris</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL DETAIL ITEM -->
     <div id="detail-modal" class="fixed inset-0 bg-app-dark/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0">
@@ -121,12 +149,12 @@
 
     <!-- DRAWER KERANJANG (CART) -->
     <div id="cart-drawer-bg" class="fixed inset-0 bg-app-dark/60 z-50 hidden opacity-0 transition-opacity" onclick="toggleCart()"></div>
-    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white border-l-2 border-app-dark z-50 transform translate-x-full transition-transform duration-300 flex flex-col neo-shadow">
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white border-l-2 border-app-dark z-50 transform translate-x-full transition-transform duration-300 flex flex-col neo-shadow">
         
         <!-- Cart Header -->
         <div class="p-4 border-b-2 border-app-dark flex justify-between items-center bg-accent-yellow">
             <h2 class="text-lg font-black text-app-dark"><i class="fa-solid fa-cart-shopping mr-2"></i>Keranjang Anda</h2>
-            <button onclick="toggleCart()" class="w-8 h-8 bg-white border-2 border-app-dark rounded-full flex items-center justify-center hover:bg-accent-pink">
+            <button onclick="toggleCart()" class="w-8 h-8 bg-white border-2 border-app-dark rounded-full flex items-center justify-center hover:bg-accent-pink transition-colors">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -142,17 +170,40 @@
 
         <!-- Cart Footer / Checkout -->
         <div class="p-4 border-t-2 border-app-dark bg-white">
-            <!-- Info Metode Pembayaran -->
+            
+            <!-- Opsi Metode Pembayaran Baru -->
             <div class="mb-4">
-                <p class="text-xs font-bold text-slate-500 mb-2 uppercase">Metode Pembayaran Tersedia:</p>
-                <div class="flex gap-2">
-                    <span class="px-2 py-1 bg-slate-100 border border-slate-300 rounded text-[10px] font-bold"><i class="fa-solid fa-money-bill-wave text-green-600 mr-1"></i>Cash</span>
-                    <span class="px-2 py-1 bg-slate-100 border border-slate-300 rounded text-[10px] font-bold"><i class="fa-solid fa-building-columns text-blue-600 mr-1"></i>Transfer</span>
-                    <span class="px-2 py-1 bg-slate-100 border border-slate-300 rounded text-[10px] font-bold"><i class="fa-solid fa-wallet text-purple-600 mr-1"></i>e-Wallet</span>
+                <p class="text-xs font-bold text-slate-500 mb-2 uppercase">Metode Pembayaran:</p>
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <label class="flex items-center gap-2 p-2.5 border-2 border-app-dark rounded-lg cursor-pointer bg-white hover:bg-slate-50 transition-colors">
+                        <input type="radio" name="payment_method" value="Cash" class="accent-brand-500 w-4 h-4" checked onchange="toggleSplitBill(false)">
+                        <span class="text-xs font-bold text-app-dark">Cash</span>
+                    </label>
+                    <label class="flex items-center gap-2 p-2.5 border-2 border-app-dark rounded-lg cursor-pointer bg-white hover:bg-slate-50 transition-colors">
+                        <input type="radio" name="payment_method" value="Transfer" class="accent-brand-500 w-4 h-4" onchange="toggleSplitBill(false)">
+                        <span class="text-xs font-bold text-app-dark">Transfer</span>
+                    </label>
+                    <label class="flex items-center gap-2 p-2.5 border-2 border-app-dark rounded-lg cursor-pointer bg-white hover:bg-slate-50 transition-colors">
+                        <input type="radio" name="payment_method" value="e-Wallet" class="accent-brand-500 w-4 h-4" onchange="toggleSplitBill(false)">
+                        <span class="text-xs font-bold text-app-dark">e-Wallet</span>
+                    </label>
+                    <label class="flex items-center gap-2 p-2.5 border-2 border-app-dark rounded-lg cursor-pointer bg-white hover:bg-slate-50 transition-colors">
+                        <input type="radio" name="payment_method" value="Split" class="accent-brand-500 w-4 h-4" onchange="toggleSplitBill(true)">
+                        <span class="text-xs font-bold text-app-dark">Split Bill</span>
+                    </label>
+                </div>
+                
+                <!-- Form Input Split Bill (Muncul saat dipilih) -->
+                <div id="split-bill-container" class="hidden animate-fade-in-up">
+                    <label class="text-xs font-bold text-slate-500 mb-1 block">Nominal Split (Pembayaran Awal):</label>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-3 font-bold text-slate-500 text-sm">Rp</span>
+                        <input type="number" class="w-full pl-9 pr-3 py-2 border-2 border-app-dark rounded-lg text-sm font-bold text-app-dark focus:outline-none focus:border-brand-500" placeholder="0">
+                    </div>
                 </div>
             </div>
 
-            <div class="flex justify-between items-end mb-4">
+            <div class="flex justify-between items-end mb-4 pt-2 border-t border-slate-200">
                 <span class="text-sm font-bold text-slate-600">Total Pembayaran:</span>
                 <span id="cart-total" class="text-xl font-black text-app-dark">Rp 0</span>
             </div>
@@ -163,18 +214,27 @@
     </div>
 
     <!-- JAVASCRIPT -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Data 9 Item Contoh
+        // Inisialisasi Animate On Scroll
+        AOS.init({
+            once: true,
+            offset: 20,
+            duration: 500,
+            easing: 'ease-out-cubic',
+        });
+
+        // Data 9 Item Contoh (Menggunakan picsum agar gambar selalu muncul)
         const products = [
-            { id: 1, name: "Tenda Dome 4P", price: 45000, type: "Sewa", category: "Tenda", img: "https://images.unsplash.com/photo-1504280387967-18a08ce2bc85?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Tenda kapasitas 4 orang, double layer, anti badai dan embun. Cocok untuk gunung tropis." },
-            { id: 2, name: "Sepatu Trekking SNI", price: 30000, type: "Sewa", category: "Sepatu", img: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Sepatu gunung anti slip dengan pelindung jari. Tersedia ukuran 39-44." },
-            { id: 3, name: "Carrier 60L Consina", price: 35000, type: "Sewa", category: "Carrier", img: "https://images.unsplash.com/photo-1622260614153-03223fb72052?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Tas gunung kapasitas 60 liter dengan backsystem nyaman untuk pendakian jauh." },
-            { id: 4, name: "Gas Kaleng Hi-Cook", price: 20000, type: "Jual", category: "Aksesoris", img: "https://images.unsplash.com/photo-1574684947930-b389812df934?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Gas kaleng original untuk kompor portable. Isi penuh." },
-            { id: 5, name: "Kompor Portable Mawar", price: 15000, type: "Sewa", category: "Aksesoris", img: "https://images.unsplash.com/photo-1588628565576-928ccab368a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Kompor lipat anti badai, api biru dan panas merata." },
-            { id: 6, name: "Sleeping Bag Polar", price: 15000, type: "Sewa", category: "Aksesoris", img: "https://images.unsplash.com/photo-1627918540842-8c9e5525dc10?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Sleeping bag bahan polar tebal, limit suhu hingga 5 derajat celcius." },
-            { id: 7, name: "Trekking Pole", price: 10000, type: "Sewa", category: "Aksesoris", img: "https://images.unsplash.com/photo-1521557008740-42526c88880e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Tongkat daki bahan duralumin kuat dan ringan. Shock absorber aktif." },
-            { id: 8, name: "Matras Foil", price: 35000, type: "Jual", category: "Aksesoris", img: "https://images.unsplash.com/photo-1525087740718-9e0f2c58c7ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Matras aluminium foil penahan dingin dari tanah, panjang 2 meter." },
-            { id: 9, name: "Tenda Tunnel 6P", price: 80000, type: "Sewa", category: "Tenda", img: "https://images.unsplash.com/photo-1534880606858-29b0e8a24e8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", desc: "Tenda keluarga bentuk terowongan (tunnel), sangat luas dengan ruang tamu depan." }
+            { id: 1, name: "Tenda Dome 4P Anti Badai Series", price: 45000, type: "Sewa", category: "Tenda", img: "https://picsum.photos/seed/tenda1/400/300", desc: "Tenda kapasitas 4 orang, double layer, anti badai dan embun. Cocok untuk gunung tropis." },
+            { id: 2, name: "Sepatu Trekking SNI", price: 30000, type: "Sewa", category: "Sepatu", img: "https://picsum.photos/seed/sepatu/400/300", desc: "Sepatu gunung anti slip dengan pelindung jari. Tersedia ukuran 39-44." },
+            { id: 3, name: "Carrier 60L Consina Gunung", price: 35000, type: "Sewa", category: "Carrier", img: "https://picsum.photos/seed/carrier/400/300", desc: "Tas gunung kapasitas 60 liter dengan backsystem nyaman untuk pendakian jauh." },
+            { id: 4, name: "Gas Kaleng Hi-Cook Original", price: 20000, type: "Jual", category: "Aksesoris", img: "https://picsum.photos/seed/gas/400/300", desc: "Gas kaleng original untuk kompor portable. Isi penuh." },
+            { id: 5, name: "Kompor Portable Mawar Lipat", price: 15000, type: "Sewa", category: "Aksesoris", img: "https://picsum.photos/seed/kompor/400/300", desc: "Kompor lipat anti badai, api biru dan panas merata." },
+            { id: 6, name: "Sleeping Bag Polar Ekstrem", price: 15000, type: "Sewa", category: "Aksesoris", img: "https://picsum.photos/seed/sb/400/300", desc: "Sleeping bag bahan polar tebal, limit suhu hingga 5 derajat celcius." },
+            { id: 7, name: "Trekking Pole Duralumin", price: 10000, type: "Sewa", category: "Aksesoris", img: "https://picsum.photos/seed/pole/400/300", desc: "Tongkat daki bahan duralumin kuat dan ringan. Shock absorber aktif." },
+            { id: 8, name: "Matras Foil 2 Meter", price: 35000, type: "Jual", category: "Aksesoris", img: "https://picsum.photos/seed/matras/400/300", desc: "Matras aluminium foil penahan dingin dari tanah, panjang 2 meter." },
+            { id: 9, name: "Tenda Tunnel Keluarga 6P Jumbo", price: 80000, type: "Sewa", category: "Tenda", img: "https://picsum.photos/seed/tenda2/400/300", desc: "Tenda keluarga bentuk terowongan (tunnel), sangat luas dengan ruang tamu depan." }
         ];
 
         let cart = [];
@@ -192,14 +252,16 @@
             
             const filtered = currentFilter === 'Semua' ? products : products.filter(p => p.type === currentFilter || p.category === currentFilter);
 
-            filtered.forEach(product => {
+            filtered.forEach((product, index) => {
                 const typeColor = product.type === 'Sewa' ? 'bg-accent-yellow' : 'bg-accent-green';
+                // Delay cascading animation
+                const animDelay = (index % 4) * 100;
                 
                 const card = `
-                    <div class="bg-white border-2 border-app-dark rounded-xl sm:rounded-2xl flex flex-col overflow-hidden neo-shadow-sm hover:neo-shadow transition-shadow">
+                    <div data-aos="fade-up" data-aos-delay="${animDelay}" class="bg-white border-2 border-app-dark rounded-xl sm:rounded-2xl flex flex-col overflow-hidden neo-shadow-sm hover:neo-shadow transition-shadow">
                         <!-- Image Area -->
-                        <div class="relative h-32 sm:h-48 cursor-pointer border-b-2 border-app-dark" onclick="openDetail(${product.id})">
-                            <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover">
+                        <div class="relative h-32 sm:h-48 cursor-pointer border-b-2 border-app-dark overflow-hidden group" onclick="openDetail(${product.id})">
+                            <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span class="absolute top-2 left-2 ${typeColor} text-app-dark text-[9px] sm:text-[10px] font-black px-2 py-1 rounded-full uppercase border-2 border-app-dark">
                                 ${product.type}
                             </span>
@@ -209,7 +271,8 @@
                         <div class="p-3 sm:p-4 flex flex-col flex-1 justify-between">
                             <div>
                                 <p class="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase mb-0.5">${product.category}</p>
-                                <h3 class="text-sm sm:text-base font-black text-app-dark leading-tight mb-2 cursor-pointer hover:text-brand-500" onclick="openDetail(${product.id})">
+                                <!-- Judul dengan class truncate agar nama panjang menjadi ... -->
+                                <h3 title="${product.name}" class="text-sm sm:text-base font-black text-app-dark leading-tight mb-2 cursor-pointer hover:text-brand-500 truncate" onclick="openDetail(${product.id})">
                                     ${product.name}
                                 </h3>
                             </div>
@@ -225,16 +288,20 @@
                 `;
                 grid.innerHTML += card;
             });
+
+            // Trigger ulang animasi AOS setelah DOM diubah
+            setTimeout(() => AOS.refresh(), 100);
         }
 
-        // Filter Logic
+        // Logic Filter Utama
         function filterProducts(category) {
             currentFilter = category;
-            // Update Active Buttons
+            
+            // Atur class pada button filter atas
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('bg-app-dark', 'text-white');
                 btn.classList.add('bg-white', 'text-app-dark');
-                if(btn.innerText.includes(category) || (category === 'Semua' && btn.innerText === 'Semua')) {
+                if(btn.innerText.trim() === category || (category === 'Semua' && btn.innerText.trim() === 'Semua')) {
                     btn.classList.add('bg-app-dark', 'text-white');
                     btn.classList.remove('bg-white', 'text-app-dark');
                 }
@@ -242,7 +309,42 @@
             renderProducts();
         }
 
-        // Modal Detail Logic
+        // Logic Filter dari Modal Kategori Lengkap
+        function selectExtendedFilter(category) {
+            currentFilter = category;
+            
+            // Reset button atas karena kita milih spesifik kategori dari popup
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-app-dark', 'text-white');
+                btn.classList.add('bg-white', 'text-app-dark');
+            });
+
+            closeFilterModal();
+            renderProducts();
+        }
+
+        // Modal Kategori Lengkap
+        function openFilterModal() {
+            const modal = document.getElementById('filter-modal');
+            const content = document.getElementById('filter-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeFilterModal() {
+            const modal = document.getElementById('filter-modal');
+            const content = document.getElementById('filter-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+
+        // Modal Detail Item
         function openDetail(id) {
             const product = products.find(p => p.id === id);
             if(!product) return;
@@ -272,7 +374,6 @@
         function closeDetailModal() {
             const modal = document.getElementById('detail-modal');
             const content = document.getElementById('detail-modal-content');
-            
             modal.classList.add('opacity-0');
             content.classList.remove('scale-100');
             content.classList.add('scale-95');
@@ -285,12 +386,10 @@
             const bg = document.getElementById('cart-drawer-bg');
             
             if (drawer.classList.contains('translate-x-full')) {
-                // Open
                 bg.classList.remove('hidden');
                 setTimeout(() => bg.classList.remove('opacity-0'), 10);
                 drawer.classList.remove('translate-x-full');
             } else {
-                // Close
                 bg.classList.add('opacity-0');
                 drawer.classList.add('translate-x-full');
                 setTimeout(() => bg.classList.add('hidden'), 300);
@@ -309,7 +408,6 @@
             
             updateCartUI();
             
-            // Animasi badge keranjang (opsional)
             const badge = document.getElementById('cart-badge');
             badge.classList.add('animate-ping');
             setTimeout(() => badge.classList.remove('animate-ping'), 300);
@@ -355,11 +453,11 @@
                     count += item.qty;
 
                     const cartItem = `
-                        <div class="bg-white border-2 border-app-dark rounded-xl p-3 flex gap-3 neo-shadow-sm">
+                        <div class="bg-white border-2 border-app-dark rounded-xl p-3 flex gap-3 neo-shadow-sm mb-3">
                             <img src="${item.img}" class="w-16 h-16 object-cover border-2 border-app-dark rounded-lg">
                             <div class="flex-1">
                                 <div class="flex justify-between items-start">
-                                    <h4 class="text-sm font-black text-app-dark leading-tight">${item.name}</h4>
+                                    <h4 class="text-sm font-black text-app-dark leading-tight truncate pr-2" title="${item.name}">${item.name}</h4>
                                     <button onclick="removeItem(${item.id})" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                                 <p class="text-brand-500 font-bold text-xs mb-2">${formatRp(item.price)}</p>
@@ -367,9 +465,9 @@
                                 <!-- Edit Qty -->
                                 <div class="flex items-center gap-3">
                                     <div class="flex items-center border-2 border-app-dark rounded-lg overflow-hidden">
-                                        <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 bg-slate-100 font-black hover:bg-slate-200">-</button>
+                                        <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 bg-slate-100 font-black hover:bg-slate-200 transition-colors">-</button>
                                         <span class="w-8 h-7 flex items-center justify-center font-bold text-xs border-x-2 border-app-dark">${item.qty}</span>
-                                        <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 bg-slate-100 font-black hover:bg-slate-200">+</button>
+                                        <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 bg-slate-100 font-black hover:bg-slate-200 transition-colors">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -383,9 +481,22 @@
             badge.innerText = count;
         }
 
-        // Tutup modal jika klik di luar box
+        // Logic memunculkan Input Nominal jika memilih Split Bill
+        function toggleSplitBill(isSplit) {
+            const splitContainer = document.getElementById('split-bill-container');
+            if(isSplit) {
+                splitContainer.classList.remove('hidden');
+            } else {
+                splitContainer.classList.add('hidden');
+            }
+        }
+
+        // Tutup modal jika klik background gelap di luar box
         document.getElementById('detail-modal').addEventListener('click', function(e) {
             if(e.target === this) closeDetailModal();
+        });
+        document.getElementById('filter-modal').addEventListener('click', function(e) {
+            if(e.target === this) closeFilterModal();
         });
 
         // Inisialisasi awal
